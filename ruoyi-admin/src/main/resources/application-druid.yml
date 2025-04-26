@@ -1,0 +1,54 @@
+# Datasource Configuration
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            # Master DataSource
+            master:
+                url: jdbc:mysql://localhost:3306/grs_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                username: root
+                password: root
+            # Initial Connections
+            initialSize: 5
+            # Min Idle Connections
+            minIdle: 10
+            # Max Active Connections
+            maxActive: 20
+            # Max Wait Time (ms)
+            maxWait: 60000
+            # Connection Timeout (ms)
+            connectTimeout: 30000
+            # Socket Timeout (ms)
+            socketTimeout: 60000
+            # Eviction Check Interval (ms)
+            timeBetweenEvictionRunsMillis: 60000
+            # Min Evictable Idle Time (ms)
+            minEvictableIdleTimeMillis: 300000
+            # Max Evictable Idle Time (ms)
+            maxEvictableIdleTimeMillis: 900000
+            # Validation Query
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            webStatFilter:
+                enabled: true
+            statViewServlet:
+                enabled: true
+                # Allowlist (empty means all allowed)
+                allow:
+                url-pattern: /druid/*
+                # Console Credentials
+                login-username: ruoyi
+                login-password: 123456
+            filter:
+                stat:
+                    enabled: true
+                    # Slow SQL Record
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true

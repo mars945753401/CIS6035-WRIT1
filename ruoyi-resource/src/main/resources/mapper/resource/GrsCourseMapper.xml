@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.resource.mapper.GrsCourseMapper">
+    
+    <resultMap type="GrsCourse" id="GrsCourseResult">
+        <result property="courseId"    column="course_id"    />
+        <result property="courseName"    column="course_name"    />
+        <result property="courseType"    column="course_type"    />
+        <result property="teacher"    column="teacher"    />
+        <result property="releaseDate"    column="release_date"    />
+        <result property="courseDesc"    column="course_desc"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectGrsCourseVo">
+        select course_id, course_name, course_type, teacher, release_date, course_desc, create_by, create_time, update_by, update_time from grs_course
+    </sql>
+
+    <select id="selectGrsCourseList" parameterType="GrsCourse" resultMap="GrsCourseResult">
+        <include refid="selectGrsCourseVo"/>
+        <where>  
+            <if test="courseName != null  and courseName != ''"> and course_name like concat('%', #{courseName}, '%')</if>
+            <if test="courseType != null  and courseType != ''"> and course_type = #{courseType}</if>
+            <if test="teacher != null  and teacher != ''"> and teacher = #{teacher}</if>
+            <if test="releaseDate != null "> and release_date = #{releaseDate}</if>
+            <if test="courseDesc != null  and courseDesc != ''"> and course_desc = #{courseDesc}</if>
+        </where>
+    </select>
+    
+    <select id="selectGrsCourseByCourseId" parameterType="Long" resultMap="GrsCourseResult">
+        <include refid="selectGrsCourseVo"/>
+        where course_id = #{courseId}
+    </select>
+
+    <insert id="insertGrsCourse" parameterType="GrsCourse" useGeneratedKeys="true" keyProperty="courseId">
+        insert into grs_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="courseName != null">course_name,</if>
+            <if test="courseType != null">course_type,</if>
+            <if test="teacher != null">teacher,</if>
+            <if test="releaseDate != null">release_date,</if>
+            <if test="courseDesc != null">course_desc,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="courseName != null">#{courseName},</if>
+            <if test="courseType != null">#{courseType},</if>
+            <if test="teacher != null">#{teacher},</if>
+            <if test="releaseDate != null">#{releaseDate},</if>
+            <if test="courseDesc != null">#{courseDesc},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGrsCourse" parameterType="GrsCourse">
+        update grs_course
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="courseName != null">course_name = #{courseName},</if>
+            <if test="courseType != null">course_type = #{courseType},</if>
+            <if test="teacher != null">teacher = #{teacher},</if>
+            <if test="releaseDate != null">release_date = #{releaseDate},</if>
+            <if test="courseDesc != null">course_desc = #{courseDesc},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where course_id = #{courseId}
+    </update>
+
+    <delete id="deleteGrsCourseByCourseId" parameterType="Long">
+        delete from grs_course where course_id = #{courseId}
+    </delete>
+
+    <delete id="deleteGrsCourseByCourseIds" parameterType="String">
+        delete from grs_course where course_id in 
+        <foreach item="courseId" collection="array" open="(" separator="," close=")">
+            #{courseId}
+        </foreach>
+    </delete>
+</mapper>

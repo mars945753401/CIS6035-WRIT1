@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.feedback.mapper.GrsFeedbackMapper">
+    
+    <resultMap type="GrsFeedback" id="GrsFeedbackResult">
+        <result property="feedbackId"    column="feedback_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="fbScore"    column="fb_score"    />
+        <result property="fbContent"    column="fb_content"    />
+        <result property="fbReply"    column="fb_reply"    />
+        <result property="fbStatus"    column="fb_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectGrsFeedbackVo">
+        select feedback_id, user_id, fb_score, fb_content, fb_reply, fb_status, create_by, create_time from grs_feedback
+    </sql>
+
+    <select id="selectGrsFeedbackList" parameterType="GrsFeedback" resultMap="GrsFeedbackResult">
+        <include refid="selectGrsFeedbackVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="fbScore != null "> and fb_score = #{fbScore}</if>
+            <if test="fbContent != null  and fbContent != ''"> and fb_content = #{fbContent}</if>
+            <if test="fbReply != null  and fbReply != ''"> and fb_reply = #{fbReply}</if>
+            <if test="fbStatus != null  and fbStatus != ''"> and fb_status = #{fbStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectGrsFeedbackByFeedbackId" parameterType="Long" resultMap="GrsFeedbackResult">
+        <include refid="selectGrsFeedbackVo"/>
+        where feedback_id = #{feedbackId}
+    </select>
+
+    <insert id="insertGrsFeedback" parameterType="GrsFeedback" useGeneratedKeys="true" keyProperty="feedbackId">
+        insert into grs_feedback
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="fbScore != null">fb_score,</if>
+            <if test="fbContent != null">fb_content,</if>
+            <if test="fbReply != null">fb_reply,</if>
+            <if test="fbStatus != null">fb_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="fbScore != null">#{fbScore},</if>
+            <if test="fbContent != null">#{fbContent},</if>
+            <if test="fbReply != null">#{fbReply},</if>
+            <if test="fbStatus != null">#{fbStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGrsFeedback" parameterType="GrsFeedback">
+        update grs_feedback
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="fbScore != null">fb_score = #{fbScore},</if>
+            <if test="fbContent != null">fb_content = #{fbContent},</if>
+            <if test="fbReply != null">fb_reply = #{fbReply},</if>
+            <if test="fbStatus != null">fb_status = #{fbStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where feedback_id = #{feedbackId}
+    </update>
+
+    <delete id="deleteGrsFeedbackByFeedbackId" parameterType="Long">
+        delete from grs_feedback where feedback_id = #{feedbackId}
+    </delete>
+
+    <delete id="deleteGrsFeedbackByFeedbackIds" parameterType="String">
+        delete from grs_feedback where feedback_id in 
+        <foreach item="feedbackId" collection="array" open="(" separator="," close=")">
+            #{feedbackId}
+        </foreach>
+    </delete>
+</mapper>

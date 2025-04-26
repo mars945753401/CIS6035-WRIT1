@@ -1,0 +1,129 @@
+# Project Related Configuration
+ruoyi:
+  # Name
+  name: RuoYi
+  # Version
+  version: 3.8.8
+  # Copyright Year
+  copyrightYear: 2024
+  # File Path Example (Windows: D:/ruoyi/uploadPath, Linux: /home/ruoyi/uploadPath)
+  profile: /Users/typ/Documents/grs/uploadPath
+  # IP Address Lookup Switch
+  addressEnabled: false
+  # Captcha Type: math - numeric calculation, char - character verification
+  captchaType: math
+
+# Development Environment Configuration
+server:
+  # Server HTTP Port (default: 8080)
+  port: 8080
+  servlet:
+    # Application Context Path
+    context-path: /
+  tomcat:
+    # Tomcat URI Encoding
+    uri-encoding: UTF-8
+    # Accept Count (queue size when connections are exhausted, default: 100)
+    accept-count: 1000
+    threads:
+      # Max Threads (default: 200)
+      max: 800
+      # Min Spare Threads (default: 10)
+      min-spare: 100
+
+# Logging Configuration
+logging:
+  level:
+    com.ruoyi: debug
+    org.springframework: warn
+
+# User Configuration
+user:
+  password:
+    # Max Retry Attempts
+    maxRetryCount: 5
+    # Lock Duration (minutes, default: 10)
+    lockTime: 10
+
+# Spring Configuration
+spring:
+  # Resource Messages
+  messages:
+    # i18n Resource Path
+    basename: i18n/messages
+  profiles:
+    active: druid
+  # File Upload
+  servlet:
+    multipart:
+      # Max File Size
+      max-file-size: 10MB
+      # Max Request Size
+      max-request-size: 20MB
+  # Service Module
+  devtools:
+    restart:
+      # Hot Reload Switch
+      enabled: true
+  # Redis Configuration
+  redis:
+    # Host
+    host: localhost
+    # Port (default: 6379)
+    port: 6379
+    # Database Index
+    database: 0
+    # Password
+    password:
+    # Connection Timeout
+    timeout: 10s
+    lettuce:
+      pool:
+        # Min Idle Connections
+        min-idle: 0
+        # Max Idle Connections
+        max-idle: 8
+        # Max Active Connections
+        max-active: 8
+        # Max Wait Time (negative value means no limit)
+        max-wait: -1ms
+
+# Token Configuration
+token:
+  # Custom Header
+  header: Authorization
+  # Secret Key
+  secret: abcdefghijklmnopqrstuvwxyz
+  # Expiration Time (minutes, default: 30)
+  expireTime: 30
+
+# MyBatis Configuration
+mybatis:
+  # Type Aliases Package
+  typeAliasesPackage: com.ruoyi.**.domain
+  # Mapper Locations
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # Global Config File
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+# PageHelper Configuration
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql
+
+# Swagger Configuration
+swagger:
+  # Enable Swagger
+  enabled: true
+  # Path Mapping
+  pathMapping: /dev-api
+
+# XSS Protection
+xss:
+  # Enable Filter
+  enabled: true
+  # Excluded URLs (comma-separated)
+  excludes: /system/notice
+  # URL Patterns
+  urlPatterns: /system/*,/monitor/*,/tool/*

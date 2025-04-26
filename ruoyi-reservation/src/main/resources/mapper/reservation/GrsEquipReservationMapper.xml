@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.reservation.mapper.GrsEquipReservationMapper">
+    
+    <resultMap type="GrsEquipReservation" id="GrsEquipReservationResult">
+        <result property="equipReservationId"    column="equip_reservation_id"    />
+        <result property="equipId"    column="equip_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="erPurpose"    column="er_purpose"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="erStatus"    column="er_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectGrsEquipReservationVo">
+        select equip_reservation_id, equip_id, user_id, er_purpose, start_time, end_time, er_status, create_by, create_time, update_by, update_time from grs_equip_reservation
+    </sql>
+
+    <select id="selectGrsEquipReservationList" parameterType="GrsEquipReservation" resultMap="GrsEquipReservationResult">
+        <include refid="selectGrsEquipReservationVo"/>
+        <where>  
+            <if test="equipId != null "> and equip_id = #{equipId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="erPurpose != null  and erPurpose != ''"> and er_purpose = #{erPurpose}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="erStatus != null  and erStatus != ''"> and er_status = #{erStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectGrsEquipReservationByEquipReservationId" parameterType="Long" resultMap="GrsEquipReservationResult">
+        <include refid="selectGrsEquipReservationVo"/>
+        where equip_reservation_id = #{equipReservationId}
+    </select>
+
+    <insert id="insertGrsEquipReservation" parameterType="GrsEquipReservation" useGeneratedKeys="true" keyProperty="equipReservationId">
+        insert into grs_equip_reservation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="equipId != null">equip_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="erPurpose != null">er_purpose,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="erStatus != null">er_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="equipId != null">#{equipId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="erPurpose != null">#{erPurpose},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="erStatus != null">#{erStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGrsEquipReservation" parameterType="GrsEquipReservation">
+        update grs_equip_reservation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="equipId != null">equip_id = #{equipId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="erPurpose != null">er_purpose = #{erPurpose},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="erStatus != null">er_status = #{erStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where equip_reservation_id = #{equipReservationId}
+    </update>
+
+    <delete id="deleteGrsEquipReservationByEquipReservationId" parameterType="Long">
+        delete from grs_equip_reservation where equip_reservation_id = #{equipReservationId}
+    </delete>
+
+    <delete id="deleteGrsEquipReservationByEquipReservationIds" parameterType="String">
+        delete from grs_equip_reservation where equip_reservation_id in 
+        <foreach item="equipReservationId" collection="array" open="(" separator="," close=")">
+            #{equipReservationId}
+        </foreach>
+    </delete>
+</mapper>

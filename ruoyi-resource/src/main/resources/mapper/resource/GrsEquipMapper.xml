@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.resource.mapper.GrsEquipMapper">
+    
+    <resultMap type="GrsEquip" id="GrsEquipResult">
+        <result property="equipId"    column="equip_id"    />
+        <result property="equipName"    column="equip_name"    />
+        <result property="equipType"    column="equip_type"    />
+        <result property="supplier"    column="supplier"    />
+        <result property="productDate"    column="product_date"    />
+        <result property="equipDesc"    column="equip_desc"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectGrsEquipVo">
+        select equip_id, equip_name, equip_type, supplier, product_date, equip_desc, create_by, create_time, update_by, update_time from grs_equip
+    </sql>
+
+    <select id="selectGrsEquipList" parameterType="GrsEquip" resultMap="GrsEquipResult">
+        <include refid="selectGrsEquipVo"/>
+        <where>  
+            <if test="equipName != null  and equipName != ''"> and equip_name like concat('%', #{equipName}, '%')</if>
+            <if test="equipType != null  and equipType != ''"> and equip_type = #{equipType}</if>
+            <if test="supplier != null  and supplier != ''"> and supplier = #{supplier}</if>
+            <if test="productDate != null "> and product_date = #{productDate}</if>
+            <if test="equipDesc != null  and equipDesc != ''"> and equip_desc = #{equipDesc}</if>
+        </where>
+    </select>
+    
+    <select id="selectGrsEquipByEquipId" parameterType="Long" resultMap="GrsEquipResult">
+        <include refid="selectGrsEquipVo"/>
+        where equip_id = #{equipId}
+    </select>
+
+    <insert id="insertGrsEquip" parameterType="GrsEquip" useGeneratedKeys="true" keyProperty="equipId">
+        insert into grs_equip
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="equipName != null">equip_name,</if>
+            <if test="equipType != null">equip_type,</if>
+            <if test="supplier != null">supplier,</if>
+            <if test="productDate != null">product_date,</if>
+            <if test="equipDesc != null">equip_desc,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="equipName != null">#{equipName},</if>
+            <if test="equipType != null">#{equipType},</if>
+            <if test="supplier != null">#{supplier},</if>
+            <if test="productDate != null">#{productDate},</if>
+            <if test="equipDesc != null">#{equipDesc},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGrsEquip" parameterType="GrsEquip">
+        update grs_equip
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="equipName != null">equip_name = #{equipName},</if>
+            <if test="equipType != null">equip_type = #{equipType},</if>
+            <if test="supplier != null">supplier = #{supplier},</if>
+            <if test="productDate != null">product_date = #{productDate},</if>
+            <if test="equipDesc != null">equip_desc = #{equipDesc},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where equip_id = #{equipId}
+    </update>
+
+    <delete id="deleteGrsEquipByEquipId" parameterType="Long">
+        delete from grs_equip where equip_id = #{equipId}
+    </delete>
+
+    <delete id="deleteGrsEquipByEquipIds" parameterType="String">
+        delete from grs_equip where equip_id in 
+        <foreach item="equipId" collection="array" open="(" separator="," close=")">
+            #{equipId}
+        </foreach>
+    </delete>
+</mapper>

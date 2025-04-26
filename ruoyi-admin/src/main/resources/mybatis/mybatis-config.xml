@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- Global params -->
+    <settings>
+        <!-- Enables or disables caching for a global mapper -->
+        <setting name="cacheEnabled"             value="true"   />
+        <!-- Allow JDBC creates primary key automatically -->
+        <setting name="useGeneratedKeys"         value="true"   />
+        <!-- Configure the default actuator. SIMPLE is an ordinary actuator; The REUSE executor reuses prepared statements; The BATCH executor reuses statements and performs batch updates-->
+        <setting name="defaultExecutorType"      value="SIMPLE" />
+		<!-- Set MyBatis' log implementation -->
+        <setting name="logImpl"                  value="SLF4J"  />
+		<!-- <setting name="mapUnderscoreToCamelCase" value="true"/> -->
+	</settings>
+	
+</configuration>
